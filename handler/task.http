@@ -1,0 +1,8 @@
+### Send POST request with body as parameters
+GET http://127.0.0.1:8080/task
+Content-Type: application/x-www-form-urlencoded
+
+original_url=https://cdn.bootcss.com/jquery/3.4.1/jquery.js
+
+###
+

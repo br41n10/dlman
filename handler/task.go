@@ -50,6 +50,7 @@ func CreateTask(c echo.Context) error {
 	// 创建 task
 	task, err := data.NewTask(originalUrl)
 	if err != nil {
+		log.Errorf("CreateTask|NewTask|%v", err)
 		return c.JSON(http.StatusInternalServerError, err)
 	}
 
@@ -81,6 +82,7 @@ func GetTask(c echo.Context) error {
 	// 获取 task
 	task, err := data.GetTaskById(taskId)
 	if err != nil {
+		log.Errorf("GetTask|GetTaskById|%v", err)
 		return c.JSON(http.StatusInternalServerError, err)
 	}
 
@@ -133,6 +135,7 @@ func GetTaskFile(c echo.Context) error {
 
 	task, err := data.GetTaskById(taskId)
 	if err != nil {
+		log.Errorf("GetTaskFile|GetTaskById|%v", err)
 		return c.JSON(http.StatusInternalServerError, err)
 	}
 

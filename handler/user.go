@@ -5,6 +5,7 @@ import (
 	"dlman/data"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 	"net/http"
 	"time"
 )
@@ -25,6 +26,7 @@ func SignUp(c echo.Context) error {
 	// 判断用户是否已经注册
 	exist, err := data.IsUserExistByEmail(email)
 	if err != nil {
+		log.Errorf("SignUp|IsUserExistByEmail|%v", err)
 		return c.JSON(http.StatusInternalServerError, nil)
 	}
 
@@ -35,11 +37,13 @@ func SignUp(c echo.Context) error {
 	// 新建用户
 	pe, err := data.EncryptPassword(password)
 	if err != nil {
+		log.Errorf("SignUp|EncryptPassword|%v", err)
 		return c.JSON(http.StatusInternalServerError, nil)
 	}
 
 	_, err = data.CreateUserByEmail(email, pe, email)
 	if err != nil {
+		log.Errorf("SignUp|CreateUserByEmail|%v", err)
 		return c.JSON(http.StatusInternalServerError, nil)
 	}
 
@@ -69,6 +73,7 @@ func SignIn(c echo.Context) error {
 	// 取出用户
 	user, err := data.GetUserByEmail(email)
 	if err != nil {
+		log.Errorf("SignIn|GetUserByEmail|%v", err)
 		return c.JSON(http.StatusInternalServerError, nil)
 	}
 
@@ -89,6 +94,7 @@ func SignIn(c echo.Context) error {
 
 	t, err := token.SignedString([]byte(config.JwtKey))
 	if err != nil {
+		log.Errorf("SignIn|SignedString|%v", err)
 		return c.JSON(http.StatusInternalServerError, nil)
 	}
 

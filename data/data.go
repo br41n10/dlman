@@ -2,6 +2,7 @@ package data
 
 import (
 	"database/sql"
+	"dlman/config"
 	"github.com/go-redis/redis/v7"
 	_ "github.com/mattn/go-sqlite3"
 	"log"
@@ -15,14 +16,14 @@ type NullString sql.NullString
 func init() {
 	var err error
 
-	// 设置mysql数据库连接
-	Db, err = sql.Open("sqlite3", "C://Users/shenz/go/src/dlman/dlman.db")
+	// 设置sqlite3数据库连接
+	Db, err = sql.Open("sqlite3", config.Sqlite3Path)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	RedisCli = redis.NewClient(&redis.Options{
-		Addr:     "centos8.vm:6379",
+		Addr:     config.RedisAddr,
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	})

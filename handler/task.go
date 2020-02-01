@@ -10,7 +10,7 @@ import (
 )
 
 type commonResp struct {
-	Code string      `json:"code"`
+	Code code        `json:"code"`
 	Msg  string      `json:"msg"`
 	Data interface{} `json:"data"`
 }
@@ -64,7 +64,7 @@ func CreateTask(c echo.Context) error {
 		Id: task.Id,
 	}
 
-	return commonJSON(c, http.StatusOK, "OK", "请求成功", resp)
+	return commonJSON(c, http.StatusOK, codeOK, "请求成功", resp)
 }
 
 func GetTask(c echo.Context) error {
@@ -114,7 +114,7 @@ func GetTask(c echo.Context) error {
 		DownloadTime: downloadTimes,
 	}
 
-	return commonJSON(c, http.StatusOK, "OK", "请求成功", resp)
+	return commonJSON(c, http.StatusOK, codeOK, "请求成功", resp)
 }
 
 // 下载文件接口，根据文件的 carrier 生成正确的下载链接

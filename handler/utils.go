@@ -1,8 +1,27 @@
 package handler
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/labstack/echo/v4"
+)
 
-func commonJSON(c echo.Context, httpCode int, code string, msg string, d interface{}) error {
+type code string
+
+// return code:
+
+// common
+const (
+	codeOK           code = "OK"
+	codeInvalidParam code = "INVALID_PARAM" // 参数错误
+)
+
+// user
+const (
+	codeUserExist    code = "USER_EXIST"
+	codeUserNotExist code = "USER_NOT_EXIST"
+	codeAuthError    code = "AUTH_ERROR"
+)
+
+func commonJSON(c echo.Context, httpCode int, code code, msg string, d interface{}) error {
 	resp := commonResp{
 		Code: code,
 		Msg:  msg,

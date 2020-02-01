@@ -1,6 +1,7 @@
 package main
 
 import (
+	"dlman/config"
 	"dlman/handler"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -22,13 +23,20 @@ func main() {
 
 	e := echo.New()
 
+	// middleware
+	authMw := middleware.JWT([]byte(config.JwtKey)) // TODO: 考虑将认证失败的自定义返回
+
 	e.Use(middleware.Logger())
 	e.Logger.SetLevel(log.DEBUG)
 
+	// user
+	e.POST("/signup", handler.SignUp)
+	e.POST("/signin", handler.SignIn)
+
 	// task
-	e.POST("/tasks", handler.CreateTask)
-	e.GET("/tasks/:id", handler.GetTask)
-	e.GET("/tasks/:taskId/file", handler.GetTaskFile)
+	e.POST("/tasks", handler.CreateTask, authMw)
+	e.GET("/tasks/:id", handler.GetTask, authMw)
+	e.GET("/tasks/:taskId/file", handler.GetTaskFile, authMw)
 
 	e.Logger.Fatal(e.Start("0.0.0.0:8080"))
 }

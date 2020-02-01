@@ -1,6 +1,20 @@
+create table User
+(
+    id                 integer not null
+        constraint User_pk
+            primary key autoincrement,
+    email              text,
+    password_encrypted text,
+    name               text,
+    role               text
+);
+
+create unique index User_id_uindex
+    on User (id);
+
 create table File
 (
-    id                 integer
+    id                 integer not null
         constraint file_pk
             primary key autoincrement,
     name               text,
